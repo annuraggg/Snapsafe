@@ -14,7 +14,6 @@ interface FileFolder {
 router.post("/", verifyJWT, async (req, res) => {
   try {
     const { query }: { query: string } = req.body;
-    console.log(query);
 
     const files = await Files.findOne({
       user: req.user._id,
@@ -40,7 +39,6 @@ router.post("/", verifyJWT, async (req, res) => {
 
     // @ts-expect-error
     searchImages(files.structure, []);
-    searchResults.pop();
 
     return res.json({ files: searchResults });
   } catch (error) {

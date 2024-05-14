@@ -300,7 +300,6 @@ const Home = () => {
       })
       .then((response) => {
         setFiles(response.data.files);
-        console.log(response.data.files);
       })
       .catch((error) => {
         console.error(error);
