@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloock&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Slim font */
+@font-face {
+  font-family: "PolySans";
+  src: url("/fonts/polysans/slim.eot");
+  src: url("/fonts/polysans/slim.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/polysans/slim.woff") format("woff"),
+    url("/fonts/polysans/slim.woff2") format("woff2"),
+    url("/fonts/polysans/slim.ttf") format("truetype"),
+    url("/fonts/polysans/slim.svg#PolySans Slim") format("svg");
+  font-weight: lighter;
+}
+
+/* Neutral font */
+@font-face {
+  font-family: "PolySans";
+  src: url("/fonts/polysans/neutral.eot");
+  src: url("/fonts/polysans/neutral.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/polysans/neutral.woff") format("woff"),
+    url("/fonts/polysans/neutral.woff2") format("woff2"),
+    url("/fonts/polysans/neutral.ttf") format("truetype"),
+    url("/fonts/polysans/neutral.svg#PolySans Neutral") format("svg");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "PolySans";
+  src: url("/fonts/polysans/median.eot");
+  src: url("/fonts/polysans/median.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/polysans/median.woff") format("woff"),
+    url("/fonts/polysans/median.woff2") format("woff2"),
+    url("/fonts/polysans/median.ttf") format("truetype"),
+    url("/fonts/polysans/median.svg#PolySans Median") format("svg");
+
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "neue-montreal";
+  src: url("/fonts/neue/NeueMontreal-Regular.otf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "neue-montreal";
+  src: url("/fonts/neue/NeueMontreal-Bold.otf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "neue-montreal";
+  src: url("/fonts/neue/NeueMontreal-Light.otf");
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "neue-montreal";
+  src: url("/fonts/neue/NeueMontreal-Medium.otf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "neue-montreal-italic";
+  src: url("/fonts/neue/NeueMontreal-Italic.otf");
+  font-style: italic;
+}
+
+/* Geist */
+
+@font-face {
+  font-family: "geist";
+  src: url("/fonts/geist/Geist-Regular.otf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "geist";
+  src: url("/fonts/geist/Geist-Bold.otf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "geist";
+  src: url("/fonts/geist/Geist-Light.otf");
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: "geist";
+  src: url("/fonts/geist/Geist-Medium.otf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "geist-italic";
+  src: url("/fonts/geist/Geist-Italic.otf");
+  font-style: italic;
+}
+
