@@ -6,6 +6,8 @@ import Signup from "./pages/signup/Signup";
 import { Toaster } from "sonner";
 import Home from "./pages/home/Home";
 import axios from "axios";
+import Fzf from "./pages/Fzf/Fzf";
+import Redirect from "./pages/Redirect/Redirect";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +23,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/",
+    element: <Redirect />,
+  },
+  {
     path: "/*",
-    element: <div>404</div>,
+    element: <Fzf />,
   },
 ]);
 
