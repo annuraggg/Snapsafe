@@ -50,9 +50,9 @@ router.post("/", async (req, res) => {
     );
     return res
       .cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        httpOnly: false,
+        secure: false,
+        sameSite: "none",
       })
       .status(201)
       .json({ token });
