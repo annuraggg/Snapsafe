@@ -48,7 +48,14 @@ router.post("/", async (req, res) => {
       },
       process.env.JWT_SECRET!
     );
-    return res.cookie("token", token).status(201).json({ token });
+    return res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      })
+      .status(201)
+      .json({ token });
   } catch (error) {
     return res
       .status(500)

@@ -3,7 +3,8 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import Token from "@/@types/TokenType";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axios from "axios";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const [signedIn, setSignedIn] = useState<boolean>(false);
@@ -23,17 +24,29 @@ const Navbar = () => {
     setSignedIn(true);
   }, []);
 
+  const logout = async () => {
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_ADDRESS}/auth/logout`)
+      .then(() => {
+        Cookies.remove("token");
+        toast.success("Signed out successfully.");
+        window.location.href = "/signin";
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div className="px-10 py-5 flex justify-between">
       <h1 className="text-2xl font-poly">Snapsafe</h1>
       <div>
         {signedIn ? (
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <Button onClick={() => logout()}>Sign Out</Button>
         ) : (
-          <Button onClick={() => window.location.href = "/signin"}>Sign In</Button>
+          <Button onClick={() => (window.location.href = "/signin")}>
+            Sign In
+          </Button>
         )}
       </div>
     </div>

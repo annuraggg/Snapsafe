@@ -44,7 +44,13 @@ router.post("/", async (req, res) => {
       process.env.JWT_SECRET!
     );
 
-    res.cookie("token", token).json({ token });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      })
+      .json({ token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Something went wrong" });

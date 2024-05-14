@@ -119,7 +119,7 @@ const Home = () => {
       })
       .catch((error) => {
         console.error(error);
-        toast.error(error.response.data.error);
+        toast.error(error.response.data.error || "Failed to fetch files");
       })
       .finally(() => {
         setLoading(false);
