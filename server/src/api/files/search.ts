@@ -8,7 +8,7 @@ interface FileFolder {
   name: string;
   createdOn: Date;
   updatedOn: Date;
-  path: string[]; // Add path variable to indicate location within the file structure
+  path: string[];
 }
 
 router.post("/", verifyJWT, async (req, res) => {
@@ -26,8 +26,23 @@ router.post("/", verifyJWT, async (req, res) => {
 
     const searchResults: FileFolder[] = [];
 
+    const searchImages = (folder: FileFolder[], basePath: string[]) => {
+      for (const item of folder) {
+        if (item.type === "file" && item.name.includes(query)) {
+          searchResults.push({ ...item, path: basePath });
+          // @ts-expect-error contents is not defined on type Document
+        } else if (item.type === "folder" && item.contents) {
+          // @ts-expect-error contents is not defined on type Document
+          searchImages(item.contents, [...basePath, item.name]);
+        }
+      }
+    };
 
-    return res.json({ searchResults });
+    // @ts-expect-error
+    searchImages(files.structure, []);
+    searchResults.pop();
+
+    return res.json({ files: searchResults });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error" });

@@ -55,10 +55,10 @@ router.post("/create", verifyJWT, async (req, res) => {
             contents: [],
           };
           currentFolder.push(newFolder);
-          // Update currentFolder to the new folder's contents
+          // @ts-expect-error contents is not defined on type Document
           currentFolder = newFolder.contents;
         } else {
-          // Update currentFolder to the existing folder's contents
+          // @ts-expect-error
           currentFolder = existingFolder.contents;
         }
       }

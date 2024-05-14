@@ -3,13 +3,12 @@ import verifyJWT from "../../middlewares/verifyJWT";
 import Files from "../../schemas/FilesSchema";
 const router = express.Router();
 
-// Define an interface for a file/folder
 interface FileFolder {
   type: string;
   name: string;
   createdOn: Date;
   updatedOn: Date;
-  path: string[]; // Add path variable to indicate location within the file structure
+  path: string[];
 }
 
 router.post("/", verifyJWT, async (req: Request, res: Response) => {
@@ -43,28 +42,26 @@ router.post("/", verifyJWT, async (req: Request, res: Response) => {
         // @ts-expect-error contents is not defined on type Document
         currentFolder = folder.contents;
 
-        fullPath.push(folderName); // Track the full path
+        fullPath.push(folderName);
       }
 
-      // Add files and folders with their respective paths
       for (const item of currentFolder) {
         fileFolders.push({
           type: item.type,
           name: item.name,
           createdOn: item.createdOn,
           updatedOn: item.updatedOn,
-          path: fullPath.concat(item.name), // Construct the full path for the item
+          path: fullPath.concat(item.name),
         });
       }
     } else {
-      // Add files and folders at the root level with their respective paths
       for (const item of currentFolder) {
         fileFolders.push({
           type: item.type,
           name: item.name,
           createdOn: item.createdOn,
           updatedOn: item.updatedOn,
-          path: [item.name], // Path for root level items
+          path: [item.name],
         });
       }
     }

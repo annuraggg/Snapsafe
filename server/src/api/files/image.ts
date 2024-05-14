@@ -8,16 +8,13 @@ router.post("/upload", verifyJWT, async (req, res) => {
   const { path, file } = req.body;
 
   try {
-    // Check if the Files document exists for the user
     let files = await Files.findOne({ user: req.user._id });
 
     if (!files) {
-      // Create a new Files document if it doesn't exist
       files = new Files({ user: req.user._id, structure: [] });
       await files.save();
     }
 
-    // Find the folder specified by the path
     let currentFolder = files.structure;
     for (const folderName of path) {
       let folder = currentFolder.find(
@@ -25,7 +22,7 @@ router.post("/upload", verifyJWT, async (req, res) => {
       );
 
       if (!folder) {
-        // If the folder doesn't exist, create it
+        // @ts-expect-error contents is not defined on type Document
         folder = {
           name: folderName,
           type: "folder",
@@ -33,18 +30,18 @@ router.post("/upload", verifyJWT, async (req, res) => {
           updatedOn: new Date(),
           contents: [],
         };
+
+        // @ts-expect-error contents is not defined on type Document
         currentFolder.push(folder);
       }
 
-      // Update currentFolder to the found or newly created folder's contents
+      // @ts-expect-error contents is not defined on type Document
       currentFolder = folder.contents;
     }
 
-    // Save the image to the ImageModel database
     const imageData = new ImageModel({ user: req.user._id, data: file.data });
     await imageData.save();
 
-    // Add the image file to the current folder
     currentFolder.push({
       name: file.name,
       type: "file",
@@ -53,7 +50,6 @@ router.post("/upload", verifyJWT, async (req, res) => {
       data: imageData._id,
     });
 
-    // Update the Files document with the modified structure
     files.structure = files.structure;
     files.markModified("structure");
     await files.save();
@@ -67,18 +63,16 @@ router.post("/upload", verifyJWT, async (req, res) => {
 
 router.post("/get", verifyJWT, async (req, res) => {
   const { path, name } = req.body;
+  console.log(path, name);
 
   try {
-    // Find the Files document for the user
     const files = await Files.findOne({ user: req.user._id });
 
     if (!files) {
       return res.status(404).json({ message: "Files not found" });
     }
 
-    // If the path length is 0, the file is in the root directory
     if (path.length === 0) {
-      // Find the image in the root folder
       const image = files.structure.find(
         (item) => item.name === name && item.type === "file"
       );
@@ -87,7 +81,6 @@ router.post("/get", verifyJWT, async (req, res) => {
         return res.status(404).json({ message: "Image not found" });
       }
 
-      // Find the image data in the ImageModel database
       const imageData = await ImageModel.findOne({ user: req.user._id });
 
       if (!imageData) {
@@ -108,10 +101,10 @@ router.post("/get", verifyJWT, async (req, res) => {
         return res.status(404).json({ message: "Folder not found" });
       }
 
+      // @ts-expect-error contents is not defined on type Document
       currentFolder = folder.contents;
     }
 
-    // Find the image in the current folder
     const image = currentFolder.find(
       (item) => item.name === name && item.type === "file"
     );
@@ -120,7 +113,6 @@ router.post("/get", verifyJWT, async (req, res) => {
       return res.status(404).json({ message: "Image not found" });
     }
 
-    // Find the image data in the ImageModel database
     const imageData = await ImageModel.findOne({
       user: req.user._id,
       _id: image.data,

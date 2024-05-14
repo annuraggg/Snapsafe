@@ -70,6 +70,8 @@ const Home = () => {
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
   const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
 
+  const [search, setSearch] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -100,6 +102,10 @@ const Home = () => {
     }
     fetchFiles(path);
   };
+
+  useEffect(() => {
+    searchImage(search);
+  }, [search]);
 
   const fetchFiles = async (path: string[]) => {
     setLoading(true);
@@ -133,9 +139,15 @@ const Home = () => {
       setImageTitle(file.name);
       setImageOpen(true);
 
-      const path: string[] = window.location.pathname.split("/").slice(2);
-      if (path.length === 1 && path[0] === "") {
-        path.pop();
+      let path: string[] = [];
+
+      if (search) {
+        path = file.path;
+      } else {
+        path = window.location.pathname.split("/").slice(2);
+        if (path.length === 1 && path[0] === "") {
+          path.pop();
+        }
       }
 
       getImage(path, file.name);
@@ -288,6 +300,7 @@ const Home = () => {
       })
       .then((response) => {
         setFiles(response.data.files);
+        console.log(response.data.files);
       })
       .catch((error) => {
         console.error(error);
@@ -308,7 +321,8 @@ const Home = () => {
         <Input
           placeholder="Search Images"
           className="mt-5"
-          onChange={(e) => searchImage(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         <DropdownMenu>
@@ -376,13 +390,13 @@ const Home = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{imageTitle}</DialogTitle>
-            <DialogDescription>
+            <DialogDescription asChild>
               {imageLoading ? (
                 <div className="flex items-center justify-center h-20">
                   <ReloadIcon className="h-4 w-4 animate-spin" />
                 </div>
               ) : (
-                <img src={imageSrc} alt="" className="mt-5" />
+                <img src={imageSrc} alt="" className="pt-3" />
               )}
             </DialogDescription>
           </DialogHeader>

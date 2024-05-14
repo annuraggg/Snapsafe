@@ -8,14 +8,12 @@ router.post("/", verifyJWT, async (req, res) => {
   const { path, name, type } = req.body;
 
   try {
-    // Find the Files document for the user
     const files = await Files.findOne({ user: req.user._id });
 
     if (!files) {
       return res.status(404).json({ message: "Files not found" });
     }
 
-    // Find the folder specified by the path
     let currentFolder = files.structure;
     for (const folderName of path) {
       const folder = currentFolder.find(
@@ -26,10 +24,10 @@ router.post("/", verifyJWT, async (req, res) => {
         return res.status(404).json({ message: "Folder not found" });
       }
 
+      // @ts-expect-error contents is not defined on type Document
       currentFolder = folder.contents;
     }
 
-    // Find the item to delete
     const itemToDelete = currentFolder.find(
       (item) => item.name === name && item.type === type
     );
@@ -38,18 +36,15 @@ router.post("/", verifyJWT, async (req, res) => {
       return res.status(404).json({ message: `${type} not found` });
     }
 
-    // Delete the item
+    // @ts-expect-error contents is not defined on type Document
     currentFolder = currentFolder.filter((item) => item !== itemToDelete);
 
-    // If the item is a folder, delete its contents recursively
     if (type === "folder") {
       await deleteFolderContents(req.user._id, itemToDelete);
     } else if (type === "file") {
-      // If the item is a file, also delete it from the images database
       await ImageModel.deleteOne({ user: req.user._id, data: name });
     }
 
-    // Update the Files document with the modified structure
     files.structure = currentFolder;
     await files.save();
 
@@ -60,7 +55,7 @@ router.post("/", verifyJWT, async (req, res) => {
   }
 });
 
-// Function to delete folder contents recursively
+// @ts-expect-error contents is not defined on type Document
 async function deleteFolderContents(userId, folder) {
   if (folder.contents && folder.contents.length > 0) {
     for (const item of folder.contents) {
