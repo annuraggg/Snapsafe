@@ -40,7 +40,7 @@ const Signin = () => {
       .then((res) => {
         Cookies.set("token", res.data.token);
         setLoading(false);
-        navigate("/");
+        navigate("/contents");
       })
       .catch((err) => {
         toast.error(err.response.data.error);

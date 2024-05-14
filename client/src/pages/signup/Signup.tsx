@@ -47,7 +47,7 @@ const Signup = () => {
         toast.success("Account created successfully.");
         console.log(res.data);
         Cookies.set("token", res.data.token);
-        navigate("/");
+        navigate("/contents");
       })
       .catch((err) => {
         toast.error(err.response.data.message);

@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
       process.env.JWT_SECRET!
     );
 
-    res.json({ token });
+    res.cookie("token", token).json({ token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Something went wrong" });
