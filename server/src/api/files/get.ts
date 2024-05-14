@@ -20,7 +20,7 @@ router.post("/", verifyJWT, async (req: Request, res: Response) => {
     });
 
     if (!files) {
-      return res.status(404).json({ error: "No files found" });
+      return res.status(200).json();
     }
 
     let currentFolder = files.structure;
