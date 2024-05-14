@@ -16,7 +16,14 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL!, "http://localhost:5173", "http://localhost:3000", process.env.SERVER_URL!],
+    origin: [
+      process.env.CLIENT_URL!,
+      "http://localhost:5173",
+      "http://localhost:3000",
+      process.env.SERVER_URL!,
+      "https://snapsafe.anuragsawant.in",
+      "https://amused-nurturing-production.up.railway.app"
+    ],
     credentials: true,
   })
 );
